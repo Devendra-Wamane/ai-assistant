@@ -1,0 +1,25 @@
+[Unit]
+Description=AI Assistant FastAPI application
+After=network.target
+
+[Service]
+Type=simple
+User=devendra
+WorkingDirectory=/home/devendra/Desktop/devops/ai-assistant
+Environment=PATH=/home/devendra/Desktop/devops/ai-assistant/venv/bin
+ExecStart=/home/devendra/Desktop/devops/ai-assistant/venv/bin/python production_start.py
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=ai-assistant
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/home/devendra/Desktop/devops/ai-assistant
+
+[Install]
+WantedBy=multi-user.target

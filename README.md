@@ -53,6 +53,19 @@ A comprehensive AI Assistant API and Telegram Bot specializing in DevOps knowled
 
 ## 🛠️ Quick Start
 
+### 0. Check Compatibility (Important!)
+```bash
+# Download compatibility checker
+curl -O https://raw.githubusercontent.com/your-username/ai-assistant/main/check-python-compatibility.py
+
+# Check your Python version
+python check-python-compatibility.py
+
+# If incompatible, upgrade Python:
+# Via pyenv: pyenv install 3.11 && pyenv global 3.11
+# Via conda: conda create -n ai-assistant python=3.11 && conda activate ai-assistant
+```
+
 ### 1. Clone & Setup
 ```bash
 git clone https://github.com/your-username/ai-assistant.git
@@ -388,10 +401,15 @@ ai-assistant/
 ├── 🎨 AIChat.css               # Styling for components
 ├── 📜 ai-widget.js             # Embeddable widget
 ├── 🚀 deploy-production.sh     # Production deployment script
+├── 🔍 check-pipeline-status.sh # Pipeline monitoring tool
+├── 🐍 check-python-compatibility.py # Python version checker
 ├── ⚙️ .github/workflows/       # CI/CD automation
-│   └── deploy.yml
+│   ├── deploy.yml              # Main CI/CD pipeline
+│   └── simple-test.yml         # Debug test workflow
 ├── 📚 README.md                # This documentation
-└── 🔧 .env.example             # Environment template
+├── 🔧 .env.example             # Environment template
+├── 📋 requirements-minimal.txt  # Minimal dependencies for testing
+└── 🆘 TROUBLESHOOTING.md       # Pipeline troubleshooting guide
 ```
 
 ## 🛡️ Security Features

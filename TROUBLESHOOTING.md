@@ -23,7 +23,33 @@ git commit --allow-empty -m "trigger: Re-run CI/CD pipeline"
 git push origin main
 ```
 
-### 2. 📦 Dependency Installation Failures
+### 2. 📦 Python Version Compatibility Error
+
+**Error Pattern:** FastAPI version incompatibility
+```
+ERROR: Ignored the following versions that require a different python version: 0.129.0 Requires-Python >=3.10
+ERROR: Could not find a version that satisfies the requirement fastapi==0.129.0
+```
+
+**Root Cause:** FastAPI 0.129.0 requires Python ≥3.10, but workflow tested Python 3.9
+
+**Solutions:**
+```bash
+# ✅ Check your Python version
+python --version
+./check-python-compatibility.py
+
+# ✅ Upgrade Python if needed
+# Via pyenv:
+pyenv install 3.11
+pyenv global 3.11
+
+# Via conda:
+conda create -n ai-assistant python=3.11
+conda activate ai-assistant
+```
+
+### 3. 📦 General Dependency Installation Failures
 
 **Error Pattern:** `pip install` hanging or failing
 ```

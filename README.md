@@ -2,7 +2,7 @@
 
 A comprehensive AI Assistant API and Telegram Bot specializing in DevOps knowledge, built with FastAPI and featuring multiple interfaces for maximum accessibility.
 
-![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.129.0-green.svg)
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)
 ![Security](https://img.shields.io/badge/Security-Scanned-green.svg)
@@ -46,7 +46,7 @@ A comprehensive AI Assistant API and Telegram Bot specializing in DevOps knowled
 
 ## 📋 Prerequisites
 
-- **Python 3.9+**
+- **Python 3.10+** (FastAPI 0.129.0 requirement)
 - **Docker & Docker Compose** (for containerization)  
 - **Git** (for version control)
 - **Telegram Account** (for bot features)
@@ -220,7 +220,7 @@ docker-compose up --scale ai-assistant=3 -d
 ### GitHub Actions CI/CD
 
 Our workflow automatically:
-1. **🧪 Tests**: Runs 13 comprehensive tests on Python 3.9, 3.10, 3.11
+1. **🧪 Tests**: Runs 13 comprehensive tests on Python 3.10, 3.11, 3.12
 2. **🔒 Security**: Scans dependencies for vulnerabilities  
 3. **🐳 Build**: Creates optimized Docker images
 4. **🚀 Deploy**: Deploys to staging/production
@@ -366,7 +366,7 @@ Our automated CI/CD pipeline follows DevOps best practices:
 ```
 
 **🎯 Pipeline Stages:**
-1. **🧪 Test**: Python 3.9-3.11, 13 comprehensive tests
+1. **🧪 Test**: Python 3.10-3.12, 13 comprehensive tests
 2. **🔒 Security**: Dependency vulnerability scanning  
 3. **🐳 Build**: Multi-arch Docker images (AMD64/ARM64)
 4. **📦 Registry**: Push to GitHub Container Registry

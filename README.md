@@ -260,6 +260,40 @@ spec:
             port: 8000
 ```
 
+### 🚀 **Quick Production Deployment**
+
+**Option 1: Use Our Deployment Script**
+```bash
+# Make script executable
+chmod +x deploy-production.sh
+
+# Deploy latest version
+./deploy-production.sh
+
+# Deploy specific version
+./deploy-production.sh --image ghcr.io/your-username/ai-assistant:v1.0.0
+```
+
+**Option 2: Manual Docker Deployment**
+```bash
+# Pull and run latest image
+docker pull ghcr.io/your-username/ai-assistant:latest
+docker run -d --name ai-assistant-prod \
+  --restart unless-stopped \
+  -p 8000:8000 \
+  -e ENVIRONMENT=production \
+  ghcr.io/your-username/ai-assistant:latest
+```
+
+**Option 3: CI/CD Auto-Deployment**
+```bash
+# Just push to main branch - CI/CD handles the rest!
+git push origin main
+
+# GitHub Actions will:
+# ✅ Run tests → 🔒 Security scan → 🐳 Build → 📦 Push → 🚀 Deploy
+```
+
 ## 🌐 Website Integration
 
 ### HTML/JavaScript Integration
@@ -292,6 +326,52 @@ function App() {
 }
 ```
 
+## � CI/CD Pipeline
+
+Our automated CI/CD pipeline follows DevOps best practices:
+
+```
+┌──────────────┐
+│   Developer  │
+└──────┬───────┘
+       │ git push
+       ▼
+┌───────────────────────┐
+│     GitHub Repo       │
+└────────┬──────────────┘
+         │ triggers
+         ▼
+┌───────────────────────┐
+│   GitHub Actions CI   │
+│ 🧪 Install deps      │
+│ 🧪 Run 13 tests      │
+│ 🔒 Security scan     │
+│ 🐳 Build Docker      │
+│ 📦 Push to registry  │
+└────────┬──────────────┘
+         │ auto-deploy
+         ▼
+┌───────────────────────┐
+│   Docker Registry     │
+│   (GitHub Packages)   │
+└────────┬──────────────┘
+         │ pull & run
+         ▼
+┌───────────────────────┐
+│     Production        │
+│   🖥️ EC2 / VPS / VM   │
+│   🏥 Health checks    │
+│   🔄 Auto-restart     │
+└───────────────────────┘
+```
+
+**🎯 Pipeline Stages:**
+1. **🧪 Test**: Python 3.9-3.11, 13 comprehensive tests
+2. **🔒 Security**: Dependency vulnerability scanning  
+3. **🐳 Build**: Multi-arch Docker images (AMD64/ARM64)
+4. **📦 Registry**: Push to GitHub Container Registry
+5. **🚀 Deploy**: Automated deployment with health checks
+
 ## 📁 Project Structure
 
 ```
@@ -307,6 +387,7 @@ ai-assistant/
 ├── ⚛️ AIChat.jsx               # React chat component  
 ├── 🎨 AIChat.css               # Styling for components
 ├── 📜 ai-widget.js             # Embeddable widget
+├── 🚀 deploy-production.sh     # Production deployment script
 ├── ⚙️ .github/workflows/       # CI/CD automation
 │   └── deploy.yml
 ├── 📚 README.md                # This documentation

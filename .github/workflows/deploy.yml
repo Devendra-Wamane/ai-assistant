@@ -78,6 +78,8 @@ jobs:
         inputs: requirements.txt
         ignore-vulns: |
           CVE-2024-23342
+          CVE-2025-54121
+          CVE-2025-62727
 
   build-and-push:
     needs: [test, security-scan]

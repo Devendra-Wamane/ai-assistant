@@ -1,13 +1,13 @@
 name: 🚀 Deploy to Railway
 
 on:
-  workflow_dispatch:  # Manual trigger
-  push:
-    branches: [ main ]
-    paths-ignore:
-      - 'README.md'
-      - 'DEPLOYMENT.md'
-      - '*.md'
+  workflow_dispatch:  # Manual trigger only
+    inputs:
+      force_deploy:
+        description: 'Force deploy even if no changes'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   deploy-railway:

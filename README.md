@@ -232,12 +232,38 @@ docker-compose up --scale ai-assistant=3 -d
 
 ### GitHub Actions CI/CD
 
-Our workflow automatically:
-1. **🧪 Tests**: Runs 13 comprehensive tests on Python 3.10, 3.11, 3.12
-2. **🔒 Security**: Scans dependencies for vulnerabilities  
-3. **🐳 Build**: Creates optimized Docker images
-4. **🚀 Deploy**: Deploys to staging/production
-5. **✅ Verify**: Health checks confirm deployment success
+### 🚀 **Manual CI/CD Control**
+
+**Easy Option: Use Our Control Script**
+```bash
+# Interactive deployment menu
+./manual-deploy.sh
+
+# Choose from:
+# 1. Full CI/CD Pipeline (Test + Build + Deploy)
+# 2. Deploy to Railway
+# 3. Run Tests Only
+# 4. Build Docker Image Only
+# 5. Check Pipeline Status
+# 6. Cancel Running Workflows
+```
+
+**GitHub Actions Manual Trigger:**
+```bash
+# Trigger via GitHub CLI
+gh workflow run "deploy.yml" \
+    --field environment="production" \
+    --field run_tests="true" \
+    --field deploy_to_registry="true"
+
+# Or go to GitHub → Actions → Select workflow → Run workflow
+```
+
+**Pipeline Features:**
+- ✅ **Manual Control Only**: No automatic deployments
+- ✅ **Environment Selection**: Choose production/staging/development
+- ✅ **Selective Execution**: Run tests, build, or deploy independently
+- ✅ **Status Monitoring**: Real-time pipeline tracking
 
 ### Environment Configuration
 
@@ -273,38 +299,44 @@ spec:
             port: 8000
 ```
 
-### 🚀 **Quick Production Deployment**
+### 🚀 **Manual Production Deployment**
 
-**Option 1: Use Our Deployment Script**
+**Option 1: Interactive Control Script**
 ```bash
-# Make script executable
-chmod +x deploy-production.sh
+# Easy interactive menu
+./manual-deploy.sh
 
-# Deploy latest version
-./deploy-production.sh
-
-# Deploy specific version
-./deploy-production.sh --image ghcr.io/your-username/ai-assistant:v1.0.0
+# Select "1" for full deployment
+# Choose your environment (production/staging/development)
 ```
 
-**Option 2: Manual Docker Deployment**
+**Option 2: Direct GitHub Actions**
 ```bash
-# Pull and run latest image
+# Via GitHub CLI
+gh workflow run "deploy.yml"
+
+# Via GitHub Web UI
+# Go to Actions → AI Assistant CI/CD Pipeline → Run workflow
+```
+
+**Option 3: Quick Platform Deployment**
+```bash
+# Deploy to Railway (fastest)
+./quick-deploy.sh
+
+# Deploy to Railway via pipeline
+./manual-deploy.sh  # Choose option 2
+```
+
+**Option 4: Manual Docker Deployment**
+```bash
+# Pull and run latest image (if built)
 docker pull ghcr.io/your-username/ai-assistant:latest
 docker run -d --name ai-assistant-prod \
   --restart unless-stopped \
   -p 8000:8000 \
   -e ENVIRONMENT=production \
   ghcr.io/your-username/ai-assistant:latest
-```
-
-**Option 3: CI/CD Auto-Deployment**
-```bash
-# Just push to main branch - CI/CD handles the rest!
-git push origin main
-
-# GitHub Actions will:
-# ✅ Run tests → 🔒 Security scan → 🐳 Build → 📦 Push → 🚀 Deploy
 ```
 
 ## 🌐 Website Integration
@@ -339,9 +371,53 @@ function App() {
 }
 ```
 
-## � CI/CD Pipeline
+## 🎛️ Manual CI/CD Pipeline
 
-Our automated CI/CD pipeline follows DevOps best practices:
+Our manual CI/CD pipeline gives you full control over deployments:
+
+```
+┌──────────────────┐
+│    Developer     │
+│  Manual Trigger  │
+└─────────┬────────┘
+          │ ./manual-deploy.sh
+          │ OR gh workflow run
+          ▼
+┌─────────────────────────┐
+│    GitHub Actions      │
+│   🎛️ Manual Control    │
+│   ✅ Run Tests?        │
+│   ✅ Build Docker?     │
+│   ✅ Deploy Where?     │
+└─────────┬───────────────┘
+          │ conditional
+          ▼
+┌─────────────────────────┐
+│   Selected Actions      │
+│ 🧪 Tests (optional)    │
+│ 🔒 Security scan       │
+│ 🐳 Build (optional)    │
+│ 📦 Registry (optional) │
+└─────────┬───────────────┘
+          │ if enabled
+          ▼
+┌─────────────────────────┐
+│      Deployment        │
+│  🎯 Selected Target:    │
+│  • Production          │ 
+│  • Staging             │
+│  • Development         │
+│  • Railway             │
+│  🏥 Health checks      │
+└─────────────────────────┘
+```
+
+**🎯 Manual Pipeline Benefits:**
+- ✅ **Full Control**: Deploy only when you want
+- ✅ **Environment Choice**: Select production/staging/development  
+- ✅ **Selective Execution**: Run tests, build, or deploy independently
+- ✅ **No Surprises**: No automatic deployments on code changes
+- ✅ **Safe Testing**: Test changes without deploying
 
 ```
 ┌──────────────┐
@@ -401,14 +477,19 @@ ai-assistant/
 ├── 🎨 AIChat.css               # Styling for components
 ├── 📜 ai-widget.js             # Embeddable widget
 ├── 🚀 deploy-production.sh     # Production deployment script
+├── � quick-deploy.sh          # Platform deployment script
+├── 🎛️ manual-deploy.sh          # Manual CI/CD controller
 ├── 🔍 check-pipeline-status.sh # Pipeline monitoring tool
 ├── 🐍 check-python-compatibility.py # Python version checker
 ├── ⚙️ .github/workflows/       # CI/CD automation
-│   ├── deploy.yml              # Main CI/CD pipeline
+│   ├── deploy.yml              # Manual CI/CD pipeline
+│   ├── deploy-railway.yml      # Railway deployment
 │   └── simple-test.yml         # Debug test workflow
 ├── 📚 README.md                # This documentation
 ├── 🔧 .env.example             # Environment template
 ├── 📋 requirements-minimal.txt  # Minimal dependencies for testing
+├── 🚂 railway.toml             # Railway platform config
+├── 📖 DEPLOYMENT.md            # Deployment guide
 └── 🆘 TROUBLESHOOTING.md       # Pipeline troubleshooting guide
 ```
 

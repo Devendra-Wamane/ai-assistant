@@ -5,11 +5,29 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# Manual trigger only - no automatic deployments
 on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:  # Manual trigger from GitHub Actions tab
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+        - development
+      run_tests:
+        description: 'Run full test suite'
+        required: false
+        default: true
+        type: boolean
+      deploy_to_registry:
+        description: 'Build and push Docker image'
+        required: false
+        default: true
+        type: boolean
 
 env:
   REGISTRY: ghcr.io
@@ -21,6 +39,7 @@ jobs:
     name: 🧪 Test Suite
     runs-on: ubuntu-latest
     timeout-minutes: 15  # Prevent hanging jobs
+    if: ${{ github.event.inputs.run_tests == 'true' }}
     strategy:
       fail-fast: false  # Don't cancel other jobs if one fails
       matrix:
@@ -106,8 +125,8 @@ jobs:
     name: 🐳 Build & Push Docker
     runs-on: ubuntu-latest
     timeout-minutes: 30  # Docker builds can take longer
-    needs: [test, security-scan]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [security-scan]
+    if: ${{ github.event.inputs.deploy_to_registry == 'true' && (!inputs.run_tests || needs.test.result == 'success' || needs.test.result == 'skipped') }}
     
     permissions:
       contents: read
@@ -162,14 +181,14 @@ jobs:
 
   # 🚀 Deploy to Production
   deploy-production:
-    name: 🚀 Deploy to Production
+    name: 🚀 Deploy to ${{ github.event.inputs.environment || 'production' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10  # Deployment should be quick
     needs: [build-and-push]
-    if: github.ref == 'refs/heads/main'
+    if: ${{ needs.build-and-push.result == 'success' }}
     
     environment:
-      name: production
+      name: ${{ github.event.inputs.environment || 'production' }}
       url: ${{ steps.deploy.outputs.url }}
 
     steps:

@@ -1,9 +1,13 @@
 name: 🧪 Simple Test Workflow
 
 on:
+  workflow_dispatch:  # Manual trigger
   push:
     branches: [ main ]
-  workflow_dispatch:  # Allow manual trigger
+    paths:
+      - '**.py'  # Only trigger on Python file changes
+      - 'requirements*.txt'
+      - 'Dockerfile'
 
 jobs:
   basic-test:

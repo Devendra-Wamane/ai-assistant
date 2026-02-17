@@ -1,0 +1,9 @@
+# 🌐 Render Deployment Configuration
+
+# This tells Render how to build and run your AI Assistant
+buildCommand = "pip install -r requirements.txt"
+startCommand = "uvicorn app:app --host 0.0.0.0 --port $PORT"
+
+[env]
+PYTHON_VERSION = "3.11"
+ENVIRONMENT = "production"

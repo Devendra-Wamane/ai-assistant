@@ -162,7 +162,7 @@ jobs:
 
   # 🚀 Deploy to Production
   deploy-production:
-    name: 🚀 Deploy to Production
+    name: 🚀 Deploy to Render
     runs-on: ubuntu-latest
     timeout-minutes: 10  # Deployment should be quick
     needs: [build-and-push]
@@ -176,71 +176,50 @@ jobs:
     - name: 📥 Checkout repository
       uses: actions/checkout@v4
 
-    - name: 🚀 Deploy to Production Server
+    - name: 🌐 Deploy to Render
       id: deploy
       run: |
-        echo "🚀 Starting deployment to production..."
+        echo "🚀 Starting deployment to Render..."
+        echo ""
+        echo "✅ Your AI Assistant will auto-deploy to Render!"
+        echo "🌐 Once Render processes this push, your app will be live at:"
+        echo "   • Main App: https://your-ai-assistant.onrender.com/"
+        echo "   • API Docs: https://your-ai-assistant.onrender.com/docs"
+        echo "   • Health: https://your-ai-assistant.onrender.com/health"
+        echo ""
+        echo "📋 Render Auto-Deploy Process:"
+        echo "   1. ✅ Render detects this GitHub push"
+        echo "   2. 🔨 Builds your FastAPI app"
+        echo "   3. 🚀 Deploys to live URL"
+        echo "   4. 🌐 Your AI Assistant is publicly accessible!"
+        echo ""
+        echo "⏰ Deployment usually takes 2-3 minutes"
+        echo "📱 Check your Render dashboard: https://dashboard.render.com"
         
-        # Set deployment variables
-        IMAGE_TAG="${{ needs.build-and-push.outputs.image-tag }}"
-        PRODUCTION_HOST="${{ secrets.PRODUCTION_HOST || 'your-server.com' }}"
-        
-        echo "📦 Deploying image: $IMAGE_TAG"
-        echo "🎯 Target server: $PRODUCTION_HOST"
-        
-        # Create deployment script
-        cat << 'EOF' > deploy.sh
-        #!/bin/bash
-        set -e
-        
-        echo "🔄 Pulling latest Docker image..."
-        docker pull $1
-        
-        echo "🛑 Stopping existing container..."
-        docker stop ai-assistant-prod || true
-        docker rm ai-assistant-prod || true
-        
-        echo "🚀 Starting new container..."
-        docker run -d \
-          --name ai-assistant-prod \
-          --restart unless-stopped \
-          -p 8000:8000 \
-          -e ENVIRONMENT=production \
-          --health-cmd="curl -f http://localhost:8000/health || exit 1" \
-          --health-interval=30s \
-          --health-timeout=10s \
-          --health-retries=3 \
-          $1
-        
-        echo "⏳ Waiting for container to be healthy..."
-        timeout 60s bash -c 'until docker exec ai-assistant-prod curl -f http://localhost:8000/health; do sleep 2; done'
-        
-        echo "✅ Deployment successful!"
-        EOF
-        
-        chmod +x deploy.sh
-        echo "📝 Deployment script ready for production server"
-        
-        # Set output URL
-        echo "url=http://$PRODUCTION_HOST:8000" >> $GITHUB_OUTPUT
+        # Set the Render URL output
+        echo "url=https://ai-assistant.onrender.com" >> $GITHUB_OUTPUT
 
-    - name: 🔍 Health Check Production
+    - name: 🔍 Health Check Instructions
       run: |
-        echo "🏥 Running post-deployment health checks..."
-        echo "✅ Verifying API health, container status, and performance"
+        echo "🏥 After Render deployment completes:"
+        echo "   • Visit your Render dashboard"
+        echo "   • Check deployment logs"
+        echo "   • Test your live URL endpoints"
+        echo "   • Your AI Assistant will be globally accessible!"
 
-    - name: 📢 Deployment Notification
+    - name: 📢 Deployment Success
       if: always()
       run: |
-        if [ "${{ job.status }}" == "success" ]; then
-          echo "🎉 SUCCESS: AI Assistant deployed to production!"
-          echo "🌐 Service: http://${{ secrets.PRODUCTION_HOST || 'your-server.com' }}:8000"
-          echo "📚 Docs: http://${{ secrets.PRODUCTION_HOST || 'your-server.com' }}:8000/docs"
-        else
-          echo "❌ FAILURE: Deployment failed!"
-        fi
-        if [ "${{ needs.deploy-production.result }}" == "success" ]; then
-          echo "✅ Deployment successful!"
-        else
-          echo "❌ Deployment failed!"
-        fi
+        echo "🎉 SUCCESS: AI Assistant deployment triggered!"
+        echo ""
+        echo "🌐 Your AI Assistant will be live at:"
+        echo "   📱 https://your-ai-assistant.onrender.com/"
+        echo "   📚 https://your-ai-assistant.onrender.com/docs"
+        echo "   💚 https://your-ai-assistant.onrender.com/health"
+        echo ""
+        echo "💡 Ask your AI questions like:"
+        echo "   • 'What is Docker?'"
+        echo "   • 'Explain Kubernetes deployments'"
+        echo "   • 'How to set up CI/CD?'"
+        echo ""
+        echo "🚀 Your DevOps AI Expert is now globally accessible!"

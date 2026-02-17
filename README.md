@@ -230,6 +230,31 @@ docker-compose up --scale ai-assistant=3 -d
 
 ## 🚀 Production Deployment
 
+### 🌐 Deploy to Render (Recommended)
+
+**Quick Deploy:**
+1. Visit [Render Dashboard](https://dashboard.render.com)
+2. Click **"New + → Web Service"**
+3. Connect your GitHub repository
+4. Use these settings:
+   ```
+   Name: ai-assistant
+   Build Command: pip install -r requirements.txt
+   Start Command: uvicorn app:app --host 0.0.0.0 --port $PORT
+   ```
+
+**Live URLs:**
+- 🌐 **Main App**: `https://your-service-name.onrender.com/`
+- 📚 **API Docs**: `https://your-service-name.onrender.com/docs`  
+- 💚 **Health Check**: `https://your-service-name.onrender.com/health`
+
+### Alternative Platforms
+- **Railway**: Auto-deploys using `railway.toml`
+- **Vercel**: Serverless deployment for API routes
+- **DigitalOcean**: Docker deployment from CI/CD
+
+See [DEPLOY.md](DEPLOY.md) for complete deployment guide.
+
 ### GitHub Actions CI/CD
 
 ### 🚀 **Manual CI/CD Control**

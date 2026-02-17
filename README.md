@@ -482,7 +482,7 @@ ai-assistant/
 ├── 🔍 check-pipeline-status.sh # Pipeline monitoring tool
 ├── 🐍 check-python-compatibility.py # Python version checker
 ├── ⚙️ .github/workflows/       # CI/CD automation
-│   └── ci-cd.yml               # Single unified pipeline
+│   └── deploy.yml              # Comprehensive CI/CD pipeline
 ├── 📚 README.md                # This documentation
 ├── 🔧 .env.example             # Environment template
 ├── 📋 requirements-minimal.txt  # Minimal dependencies for testing

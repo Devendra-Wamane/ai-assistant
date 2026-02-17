@@ -482,9 +482,7 @@ ai-assistant/
 ├── 🔍 check-pipeline-status.sh # Pipeline monitoring tool
 ├── 🐍 check-python-compatibility.py # Python version checker
 ├── ⚙️ .github/workflows/       # CI/CD automation
-│   ├── deploy.yml              # Manual CI/CD pipeline
-│   ├── deploy-railway.yml      # Railway deployment
-│   └── simple-test.yml         # Debug test workflow
+│   └── ci-cd.yml               # Single unified pipeline
 ├── 📚 README.md                # This documentation
 ├── 🔧 .env.example             # Environment template
 ├── 📋 requirements-minimal.txt  # Minimal dependencies for testing

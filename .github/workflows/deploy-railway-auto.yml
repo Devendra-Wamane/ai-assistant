@@ -1,0 +1,37 @@
+name: 🚀 Auto-Deploy to Railway
+
+# This workflow automatically deploys to Railway on every push
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**.py'
+      - 'requirements*.txt'
+      - 'Dockerfile'
+      - '.github/workflows/deploy-railway-auto.yml'
+
+jobs:
+  auto-deploy-railway:
+    name: 🚂 Auto-Deploy to Railway
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout repository
+      uses: actions/checkout@v4
+
+    - name: 🚂 Deploy to Railway using Dockerfile
+      uses: bervProject/railway-deploy@main
+      with:
+        railway_token: ${{ secrets.RAILWAY_TOKEN }}
+        service: "ai-assistant"
+        
+    - name: ✅ Deployment Complete
+      run: |
+        echo "🎉 SUCCESS: AI Assistant auto-deployed to Railway!"
+        echo "🌐 Your app will be live at your Railway URL"
+        echo "📱 Check Railway dashboard: https://railway.app/"
+        echo ""
+        echo "🔗 Your AI Assistant endpoints:"
+        echo "   • Main App: https://your-app.railway.app/"
+        echo "   • API Docs: https://your-app.railway.app/docs"
+        echo "   • Health: https://your-app.railway.app/health"
